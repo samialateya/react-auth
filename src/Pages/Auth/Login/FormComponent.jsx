@@ -1,5 +1,6 @@
 import { useState } from 'react';
-export function FormComponent({	setErrorMessage, setInfoMessage }) {
+import { APIHelper } from '../../../Helpers/APIHelper.js';
+export function FormComponent({	setErrorMessage }) {
 	//SECTION	Scripts
 	
 	//ANCHOR login
@@ -8,7 +9,30 @@ export function FormComponent({	setErrorMessage, setInfoMessage }) {
 		e.preventDefault();
 		//*start loading functionality
 		startLoader();
-		setErrorMessage("message");
+		//*send ajax request to the server
+		try{
+			const response = await (new APIHelper()).post('user/login', new FormData(e.target));
+			switch(response.code){
+				//incorrect credentials case
+				case 401:
+					setErrorMessage("Incorrect email or password");
+					break;
+				//invalid inputs case
+				case 422:
+					setErrorMessage("Email or password are invalid");
+					break;
+				//server error case
+				case 500:
+					setErrorMessage("Server Error! please contact support center");
+					break;
+				//default case
+				default:
+					setErrorMessage("Something went wrong, please try again later");
+					break;
+			}
+		} catch(error){
+			setErrorMessage("Connection Error!");
+		}
 		//*stop loading functionality
 		stopLoader();
 	}
