@@ -1,18 +1,34 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import PropTypes from 'prop-types';
+import { useNavigate } from "react-router-dom"
+
 import { APIHelper } from '../../../Helpers/APIHelper.js';
+import { AuthManager } from '../../../StateManager/AuthManager.js';
+import { GlobalContext } from '../../../StateManager/AppContext.js';
+
 export function FormComponent({	setErrorMessage }) {
 	//SECTION	Scripts
-	
+	//catch user data from global state
+	const [userData, setUserData] = useContext(GlobalContext);
+
+	let navigate = useNavigate();
 	//ANCHOR login
 	async function login(e){
 		//prevent default submitting behavior
 		e.preventDefault();
 		//*start loading functionality
 		startLoader();
+		
 		//*send ajax request to the server
 		try{
 			const response = await (new APIHelper()).post('user/login', new FormData(e.target));
 			switch(response.code){
+				//case 200 save user data to the state manager and redirect to the home page
+				case 200:
+					AuthManager.storeUserData(response.body.data);
+					setUserData(() => response.body.data);
+					navigate('/');
+					break;
 				//incorrect credentials case
 				case 401:
 					setErrorMessage("Incorrect email or password");
@@ -31,6 +47,7 @@ export function FormComponent({	setErrorMessage }) {
 					break;
 			}
 		} catch(error){
+			console.log(error);
 			setErrorMessage("Connection Error!");
 		}
 		//*stop loading functionality
@@ -75,4 +92,9 @@ export function FormComponent({	setErrorMessage }) {
 			{/* #!SECTION Form */}
 		</>
 	)
+}
+
+//*setup the prop types for the component
+FormComponent.propTypes = {
+	setErrorMessage: PropTypes.func.isRequired,
 }

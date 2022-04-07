@@ -26,7 +26,7 @@ export function LoginPage() {
 				<InfoMessageComponent message={infoMessage}/>
 
 				{/* #ANCHOR Form */}
-				<FormComponent setErrorMessage={setErrorMessage} setInfoMessage={setInfoMessage} />
+				<FormComponent setErrorMessage={setErrorMessage} />
 
 				{/* #ANCHOR Form Footer */}
 				<FooterComponent />
