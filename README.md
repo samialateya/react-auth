@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+## About Auth Starter
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+It's  a [React](https://reactjs.org/) authentication markdown that will help you to understand and grasp all the underlying functionality for setting up authentication on frontend web applications which include:
+- Setup routes and create views and components
+- Setup react router dom to handle navigation process
+- Setup Context store to handle state management
+- Caching user data in local storage to keep user logged in
+- Setup environment files to controls environment variables
+- Consuming restful API and share data between client and the server
+- Setup social login components with all it's underlying functionality
 
-## Available Scripts
+feel free to use it as a startup for your next React project
 
-In the project directory, you can run:
+## User Features
 
-### `npm start`
+User has the following features provided as Web and API
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Routing
+- Email & Password Authentication
+- Login, Register, Update Profile
+- Forget Password functionality
+- Email Verification functionality
+- Social Login with google and facebook login
+- Protecting some routes against un verified emails
+- Protecting some routes against guests
+- File Upload
+- UI is built with [Bootstrap 5](https://getbootstrap.com/docs/5.1/getting-started/introduction/)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Please be aware that I'm using Laravel to handle all backend functionality you can find the backend repo here [AuthStarter](https://github.com/samialateya/Auth-Starter)
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation
 
-### `npm run build`
+First clone this repository, install the dependencies, and setup your .env file.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+git clone https://github.com/samialateya/react-auth
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+you are good to go now serve the application in ssl mode to be allowed to use facebook login
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+npm run start
+```
 
-### `npm run eject`
+## Contributing
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Thank you for considering contributing to ReactAuthStarter.
+Feel free to fork this repo and submit a pull request with your updates
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Errors and Vulnerabilities
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Please open an issue on Github if you discover a vulnerability or you face an error with this repo.
+and feel free to contact me at [samialateya@hotmail.com](mailto:samialateya@hotmail.com)
