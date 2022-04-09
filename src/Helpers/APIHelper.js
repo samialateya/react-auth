@@ -1,11 +1,11 @@
 //*this a helper class to send request to the server
 export class APIHelper{
 	#BASE_URL = 'http://localhost/togithub/AuthStarter/public/api/';
-	#HEADERS = { "Accept": "application/json" };
+	#BASE_HEADERS = { "Accept": "application/json" };
 
 	post(URI, data, headers = {}){
 		const requestURI = this.#BASE_URL+this.#prepareURI(URI);
-		const requestHeaders = { ...this.#HEADERS, ...headers };
+		const requestHeaders = { ...this.#BASE_HEADERS, ...headers };
 		//send ajax request
 		return new Promise(async (resolve, reject) => {
 			try{

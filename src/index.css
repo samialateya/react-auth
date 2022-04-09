@@ -8,6 +8,14 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',monospace;
+}
+.nav-avatar {
+	width: 40px;
+	border: 2px solid #ccc;
+	border-radius: 100%;
+	padding: 3px;
+	height: 40px;
+	object-fit: cover;
+	object-position: center;
 }

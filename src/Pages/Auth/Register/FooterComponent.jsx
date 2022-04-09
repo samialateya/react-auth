@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+
 export function FooterComponent() {
 	return (
 		<>
@@ -11,13 +12,11 @@ export function FooterComponent() {
 						Keep me signed in
 					</label>
 				</div>
-				{/* ANCHOR forgot password */}
-				<a href="login" className="text-black">Forgot password?</a>
 			</div>
 			{/* ANCHOR Register */}
 			<div className="text-center font-weight-light">
-				Don't have an account?
-				<Link to="/register" className="text-primary">Create</Link>
+				already have an account?
+				<Link to="/login" className="text-primary">Login</Link>
 			</div>
 			{/* #!SECTION Form Footer */}
 		</>

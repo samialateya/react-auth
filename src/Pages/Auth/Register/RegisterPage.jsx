@@ -1,4 +1,4 @@
-import './LoginPage.css';
+import './RegisterPage.css';
 import { useState, useEffect } from 'react';
 import { ErrorMessageComponent } from '../../../Components/alerts/ErrorMessageComponent.jsx';
 import { InfoMessageComponent } from '../../../Components/alerts/InfoMessageComponent.jsx';
@@ -7,12 +7,12 @@ import { FooterComponent } from './FooterComponent';
 import { AuthManager } from '../../../StateManager/AuthManager.js';
 import { useNavigate } from 'react-router-dom';
 
-export function LoginPage() {
+export function RegisterPage() {
 	//SECTION	Scripts
 		const [errorMessage, setErrorMessage] = useState('');
 		const [infoMessage, setInfoMessage] = useState('');
 		const navigate = useNavigate();
-		//prevent logged in user from accessing the login page
+		//prevent logged in user from accessing the register page
 		useEffect(() => {
 			if(AuthManager.isLoggedIn()){
 				navigate('/');
@@ -21,12 +21,12 @@ export function LoginPage() {
 	//#!SECTION
 
 	return (
-		<div className="login-container bg-light">
-			{/*#SECTION login card */}
+		<div className="register-container bg-light">
+			{/*#SECTION register card */}
 			<div className="card card-body flex-grow-0">
 
 				{/* ANCHOR form text */}
-				<h1 className="text-black-50">Auth Starter Login</h1>
+				<h1 className="text-black-50">Auth Starter Register</h1>
 				<h4>Hello! let's get started</h4>
 				<h6>Sign in to continue.</h6>
 
@@ -40,7 +40,7 @@ export function LoginPage() {
 				{/* #ANCHOR Form Footer */}
 				<FooterComponent />
 			</div>
-			{/*#!SECTION login card */}
+			{/*#!SECTION register card */}
 		</div>
 	)
 }
