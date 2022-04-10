@@ -6,56 +6,15 @@ import { APIHelper } from '../../../Helpers/APIHelper.js';
 import { AuthManager } from '../../../StateManager/AuthManager.js';
 import { GlobalContext } from '../../../StateManager/AppContext.js';
 
-export function FormComponent({	setErrorMessage }) {
+export function FormComponent({	setErrorMessage,setInfoMessage }) {
 	//SECTION	Scripts
 	//catch user data from global state
 	const [userData, setUserData] = useContext(GlobalContext);
 
 	let navigate = useNavigate();
-	//ANCHOR login
-	async function login(e){
-		//prevent default submitting behavior
-		e.preventDefault();
-		//*start loading functionality
-		startLoader();
-		
-		//*send ajax request to the server
-		try{
-			const response = await (new APIHelper()).post('user/login', new FormData(e.target));
-			switch(response.code){
-				//case 200 save user data to the state manager and redirect to the home page
-				case 200:
-					AuthManager.storeUserData(response.body.data);
-					setUserData(() => response.body.data);
-					navigate('/');
-					break;
-				//incorrect credentials case
-				case 401:
-					setErrorMessage("Incorrect email or password");
-					break;
-				//invalid inputs case
-				case 422:
-					setErrorMessage("Email or password are invalid");
-					break;
-				//server error case
-				case 500:
-					setErrorMessage("Server Error! please contact support center");
-					break;
-				//default case
-				default:
-					setErrorMessage("Something went wrong, please try again later");
-					break;
-			}
-		} catch(error){
-			console.log(error);
-			setErrorMessage("Connection Error!");
-		}
-		//*stop loading functionality
-		stopLoader();
-	}
 
 	//ANCHOR start loader
-	function startLoader(){
+	function startLoader() {
 		setBtnText('loading...');
 		setLoadingState(true);
 	}
@@ -64,10 +23,49 @@ export function FormComponent({	setErrorMessage }) {
 		setBtnText('SIGN IN');
 		setLoadingState(false);
 	}
-	
+
 	//ANCHOR local component state
 	const [btnText, setBtnText] = useState('SIGN IN');
 	const [loadingState, setLoadingState] = useState(false);
+
+	//ANCHOR login
+	async function login(e){
+		//prevent default submitting behavior
+		e.preventDefault();
+		
+		//clear previous flash and error messages
+		setErrorMessage('');
+		setInfoMessage('');
+
+		//*start loading functionality
+		startLoader();
+		
+		//*send ajax request to the server
+		try{
+			const response = await (new APIHelper()).post('user/login', new FormData(e.target));
+			//*stop loading functionality
+			stopLoader();
+			switch(response.code){
+				//case 200 save user data to the state manager and redirect to the home page
+				case 200:
+					AuthManager.storeUserData(response.body.data);
+					setUserData(() => response.body.data);
+					navigate('/');
+					break;
+				//incorrect credentials case
+				case 401: setErrorMessage("Incorrect email or password"); break;
+				//invalid inputs case
+				case 422: setErrorMessage("Email or password are invalid"); break;
+				//server error case
+				case 500: setErrorMessage("Server Error! please contact support center"); break;
+				//default case
+				default: setErrorMessage("Something went wrong, please try again later"); break;
+			}
+		} catch(error){
+			console.log(error);
+			setErrorMessage("Connection Error!");
+		}
+	}
 	
 	//#!SECTION
 	return (

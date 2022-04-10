@@ -5,18 +5,26 @@ import { InfoMessageComponent } from '../../../Components/alerts/InfoMessageComp
 import { FormComponent } from './FormComponent';
 import { FooterComponent } from './FooterComponent';
 import { AuthManager } from '../../../StateManager/AuthManager.js';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export function LoginPage() {
 	//SECTION	Scripts
+		//component state
 		const [errorMessage, setErrorMessage] = useState('');
 		const [infoMessage, setInfoMessage] = useState('');
+		
 		const navigate = useNavigate();
+		//navigation props
+		const { state } = useLocation();
 		//prevent logged in user from accessing the login page
 		useEffect(() => {
+			console.log(state);
 			if(AuthManager.isLoggedIn()){
 				navigate('/');
+				return;
 			}
+			//print flash message from navigation props if any
+			setInfoMessage(state?.flashMessage);
 		}, []);
 	//#!SECTION
 
@@ -35,7 +43,7 @@ export function LoginPage() {
 				<InfoMessageComponent message={infoMessage}/>
 
 				{/* #ANCHOR Form */}
-				<FormComponent setErrorMessage={setErrorMessage} />
+				<FormComponent setErrorMessage={setErrorMessage} setInfoMessage={setInfoMessage} />
 
 				{/* #ANCHOR Form Footer */}
 				<FooterComponent />
