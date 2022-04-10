@@ -1,6 +1,6 @@
 //*this a helper class to send request to the server
 export class APIHelper{
-	#BASE_URL = 'http://localhost/togithub/AuthStarter/public/api/';
+	#BASE_URL = 'http://127.0.0.1:8000/api/';
 	#BASE_HEADERS = { "Accept": "application/json" };
 
 	post(URI, data, headers = {}){

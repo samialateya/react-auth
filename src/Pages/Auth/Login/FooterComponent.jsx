@@ -12,7 +12,7 @@ export function FooterComponent() {
 					</label>
 				</div>
 				{/* ANCHOR forgot password */}
-				<a href="login" className="text-black">Forgot password?</a>
+				<Link to="/reset-password" className="text-black">Forgot password?</Link>
 			</div>
 			{/* ANCHOR Register */}
 			<div className="text-center font-weight-light">

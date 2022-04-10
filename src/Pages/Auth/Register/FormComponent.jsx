@@ -11,6 +11,11 @@ export function FormComponent({	setErrorMessage }) {
 	const currentPassword = useRef('currentPassword');
 	let navigate = useNavigate();
 
+	
+	//ANCHOR local component state
+	const [btnText, setBtnText] = useState('SIGN IN');
+	const [loadingState, setLoadingState] = useState(false);
+	
 	//ANCHOR start loader
 	function startLoader() {
 		setBtnText('loading...');
@@ -21,11 +26,7 @@ export function FormComponent({	setErrorMessage }) {
 		setBtnText('SIGN IN');
 		setLoadingState(false);
 	}
-
-	//ANCHOR local component state
-	const [btnText, setBtnText] = useState('SIGN IN');
-	const [loadingState, setLoadingState] = useState(false);
-
+	
 	//ANCHOR login
 	async function login(e){
 		//prevent default submitting behavior
@@ -55,6 +56,7 @@ export function FormComponent({	setErrorMessage }) {
 				default: setErrorMessage("Something went wrong, please try again later"); break;
 			}
 		} catch(error){
+			stopLoader();
 			setErrorMessage("Connection Error!");
 		}
 	}
