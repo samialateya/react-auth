@@ -18,7 +18,6 @@ export function LoginPage() {
 		const { state } = useLocation();
 		//prevent logged in user from accessing the login page
 		useEffect(() => {
-			console.log(state);
 			if(AuthManager.isLoggedIn()){
 				navigate('/');
 				return;

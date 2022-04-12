@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { GlobalContext } from '../StateManager/AppContext.js';
 import { LogoutComponent } from '../Pages/Auth/Logout/LogoutComponent.jsx';
 
-export default function NavbarComponent() {
+export function NavbarComponent() {
 	//catch user data from global state
 	const [userData, setUserData] = useContext(GlobalContext);
 	return (
