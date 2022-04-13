@@ -33,7 +33,7 @@ export function ResetPasswordPage() {
 				<InfoMessageComponent message={infoMessage} />
 
 				{/* #ANCHOR Form */}
-				<FormComponent setErrorMessage={setErrorMessage} />
+				<FormComponent setErrorMessage={setErrorMessage} setInfoMessage={setInfoMessage} />
 
 				{/* #ANCHOR Form Footer */}
 				<FooterComponent />

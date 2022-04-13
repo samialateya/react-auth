@@ -1,9 +1,9 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { APIHelper } from '../../../Helpers/APIHelper.js';
 
-export function FormComponent({ setErrorMessage, setInfoMessage }) {
+export function FormComponent({ setErrorMessage, setInfoMessage, invalidToken, userData}) {
 	//SECTION	Scripts
 
 	//ANCHOR start loader
@@ -13,62 +13,55 @@ export function FormComponent({ setErrorMessage, setInfoMessage }) {
 	}
 	//ANCHOR stop loader
 	function stopLoader() {
-		setBtnText('SIGN IN');
+		setBtnText('Send Verification Link');
 		setLoadingState(false);
 	}
 
 	//ANCHOR local component state
-	const [btnText, setBtnText] = useState('Reset Password');
+	const [btnText, setBtnText] = useState('Send Verification Link');
 	const [loadingState, setLoadingState] = useState(false);
 
-	//ANCHOR Reset Password
-	async function resetPassword(e){
+	//ANCHOR Verify Email
+	async function verifyEmail(e) {
 		//prevent default submitting behavior
 		e.preventDefault();
-		
+
 		//clear previous flash and error messages
 		setErrorMessage('');
 		setInfoMessage('');
 
 		//*start loading functionality
 		startLoader();
-		
+
 		//*send ajax request to the server
-		try{
-			const response = await (new APIHelper()).post('/user/forgot-password', new FormData(e.target));
+		try {
+			const response = await (new APIHelper()).post('/user/verify-email', new FormData(e.target), { 'Authorization': `Bearer ${userData.access_token}` });
 			//*stop loading functionality
 			stopLoader();
-			switch(response.code){
+			switch (response.code) {
 				//case 200 save user data to the state manager and redirect to the home page
-				case 200: setInfoMessage("Reset password link sent to your email"); break;
-				//incorrect credentials case
-				case 406: setErrorMessage("Email not found"); break;
-				//invalid inputs case
-				case 422: setErrorMessage("Email or password are invalid"); break;
+				case 200: setInfoMessage("Verification link sent to your email"); break;
+				//invalid token
+				case 401: invalidToken(); break;
 				//server error case
 				case 500: setErrorMessage("Server Error! please contact support center"); break;
 				//default case
 				default: setErrorMessage("Something went wrong, please try again later"); break;
 			}
-		} catch(error){
+		} catch (error) {
 			console.log(error);
 			setErrorMessage("Connection Error!");
 		}
 	}
-	
+
 	//#!SECTION
 	return (
 		<>
 			{/* #SECTION Form */}
-			<form className="pt-3" onSubmit={(event) => resetPassword(event)}>
-				{/* #ANCHOR email  */}
-				<div className="pb-2">
-					<input type="email" name="email" placeholder="Email" className="form-control form-control-lg" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="Invalid email address" autoComplete="email" />
-					<span className="text-danger mt-1 d-inline-block"></span>
-				</div>
+			<form className="pt-3" onSubmit={(event) => verifyEmail(event)}>
 				{/* #ANCHOR submit button */}
 				<div className="pb-2">
-					<button type="submit" className="btn btn-block btn-dark" disabled={loadingState}>{btnText}</button>
+					<button type="submit" className="btn btn-block w-100 btn-dark" disabled={loadingState}>{btnText}</button>
 				</div>
 			</form>
 			{/* #!SECTION Form */}
@@ -79,5 +72,7 @@ export function FormComponent({ setErrorMessage, setInfoMessage }) {
 //*setup the prop types for the component
 FormComponent.propTypes = {
 	setErrorMessage: PropTypes.func.isRequired,
-	setInfoMessage: PropTypes.func.isRequired
+	setInfoMessage: PropTypes.func.isRequired,
+	invalidToken: PropTypes.func.isRequired,
+	userData: PropTypes.object.isRequired
 }

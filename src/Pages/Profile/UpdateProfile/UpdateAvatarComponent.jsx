@@ -3,9 +3,12 @@ import { InfoMessageComponent } from "../../../Components/alerts/InfoMessageComp
 import { useState } from 'react';
 import { APIHelper } from "../../../Helpers/APIHelper";
 import { AuthManager } from "../../../StateManager/AuthManager";
-
+import { useNavigate } from "react-router-dom";
 export function UpdateAvatarComponent({ userData, setUserData }) {
 	//SECTION	Scripts
+
+	//ANCHOR navigation & navigation props
+	const navigate = useNavigate();
 
 	//ANCHOR component state
 	const [errorMessage, setErrorMessage] = useState('');
@@ -50,10 +53,14 @@ export function UpdateAvatarComponent({ userData, setUserData }) {
 					setUserData(() => newUserData);
 					setInfoMessage("Avatar Is Updated Successfully");
 					break;
+				//invalid image
+				case 422: setErrorMessage("Invalid Image"); break;
 				//invalid access token
 				case 401: setErrorMessage("Invalid Access Token"); break;
 				//un verified email case
-				case 403: setErrorMessage("Unverified Email"); break;
+				case 403: 
+					navigate('/verify-email', { state: { flashMessage: 'please verify your email to continue' } });
+					break;
 				//server error case
 				case 500: setErrorMessage("Server Error! please contact support center"); break;
 				//default case
@@ -77,8 +84,7 @@ export function UpdateAvatarComponent({ userData, setUserData }) {
 				<InfoMessageComponent message={infoMessage} />
 				{/* image input */}
 				<div className="pb-2">
-					<input type="file" name="image" placeholder="Select new profile image" className="form-control form-control-lg"
-					/>
+					<input type="file" name="image" placeholder="Select new profile image" className="form-control form-control-lg" required />
 				</div>
 				{/* submit button */}
 				<div className="mt-3">

@@ -3,9 +3,13 @@ import { InfoMessageComponent } from "../../../Components/alerts/InfoMessageComp
 import { useState, useRef } from 'react';
 import { APIHelper } from "../../../Helpers/APIHelper";
 import { AuthManager } from "../../../StateManager/AuthManager";
+import { useNavigate } from "react-router-dom";
 
 export function UpdateBasicInfoComponent({ userData, setUserData }) {
 	//SECTION	Scripts
+
+	//ANCHOR navigation & navigation props
+	const navigate = useNavigate();
 
 	//ANCHOR component state
 	const [errorMessage, setErrorMessage] = useState('');
@@ -59,8 +63,12 @@ export function UpdateBasicInfoComponent({ userData, setUserData }) {
 					break;
 				//invalid access token
 				case 401: setErrorMessage("Invalid Access Token"); break;
+				//invalid input
+				case 422: setErrorMessage("Invalid Name OR Password"); break;
 				//un verified email case
-				case 403: setErrorMessage("Unverified Email"); break;
+				case 403: 
+					navigate('/verify-email', { state: { flashMessage: 'please verify your email to continue' } });
+					break;
 				//server error case
 				case 500: setErrorMessage("Server Error! please contact support center"); break;
 				//default case

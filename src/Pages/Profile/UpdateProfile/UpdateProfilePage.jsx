@@ -1,14 +1,23 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from "../../../StateManager/AppContext";
 import { NavbarComponent } from "../../../Components/NavbarComponent";
 import { UpdateBasicInfoComponent } from "./UpdateBasicInfoComponent";
 import { UpdateAvatarComponent } from "./UpdateAvatarComponent";
 import { RemoveAvatarComponent } from "./RemoveAvatarComponent";
+import { AuthManager } from "../../../StateManager/AuthManager";
 
 export function UpdateProfilePage(){
 	//SECTION	Scripts
 	//ANCHOR Global State
 	const [userData, setUserData] = useContext(GlobalContext);
+	//redirect to login page if user is not logged in
+	const navigate = useNavigate();
+	useEffect(() => {
+		if (!AuthManager.isLoggedIn()) {
+			navigate('/login');
+		}
+	}, []);
 	//#!SECTION	Scripts
 	return(
 		<>
