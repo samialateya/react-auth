@@ -1,7 +1,8 @@
 import { ErrorMessageComponent } from "../../../Components/alerts/ErrorMessageComponent";
 import { InfoMessageComponent } from "../../../Components/alerts/InfoMessageComponent";
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useInvalidToken, useUnVerifiedEmail } from "../../../Hooks/AuthHooks";
+
 
 import { APIHelper } from "../../../Helpers/APIHelper";
 import { AuthManager } from "../../../StateManager/AuthManager";
@@ -14,8 +15,9 @@ export function RemoveAvatarComponent({ userData, setUserData}) {
 	const [btnText, setBtnText] = useState('Remove Avatar');
 	const [loadingState, setLoadingState] = useState(false);
 
-	//ANCHOR navigation & navigation props
-	const navigate = useNavigate();
+	//ANCHOR auth hooks
+	const invalidToken = useInvalidToken();
+	const unVerifiedEmail = useUnVerifiedEmail();
 
 	//ANCHOR start loader
 	function startLoader() {
@@ -55,11 +57,9 @@ export function RemoveAvatarComponent({ userData, setUserData}) {
 					setInfoMessage("Avatar Is Removed Successfully");
 					break;
 				//invalid access token
-				case 401: setErrorMessage("Invalid Access Token"); break;
+				case 401: invalidToken(); break;
 				//un verified email case
-				case 403:
-					navigate('/verify-email', { state: { flashMessage: 'please verify your email to continue' } });
-					break;
+				case 403: unVerifiedEmail(); break;
 				//server error case
 				case 500: setErrorMessage("Server Error! please contact support center"); break;
 				//default case

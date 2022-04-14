@@ -3,12 +3,13 @@ import { InfoMessageComponent } from "../../../Components/alerts/InfoMessageComp
 import { useState } from 'react';
 import { APIHelper } from "../../../Helpers/APIHelper";
 import { AuthManager } from "../../../StateManager/AuthManager";
-import { useNavigate } from "react-router-dom";
+import { useInvalidToken, useUnVerifiedEmail } from "../../../Hooks/AuthHooks";
 export function UpdateAvatarComponent({ userData, setUserData }) {
 	//SECTION	Scripts
 
-	//ANCHOR navigation & navigation props
-	const navigate = useNavigate();
+	//ANCHOR auth hooks
+	const invalidToken = useInvalidToken();
+	const unVerifiedEmail = useUnVerifiedEmail();
 
 	//ANCHOR component state
 	const [errorMessage, setErrorMessage] = useState('');
@@ -56,11 +57,9 @@ export function UpdateAvatarComponent({ userData, setUserData }) {
 				//invalid image
 				case 422: setErrorMessage("Invalid Image"); break;
 				//invalid access token
-				case 401: setErrorMessage("Invalid Access Token"); break;
+				case 401: invalidToken(); break;
 				//un verified email case
-				case 403: 
-					navigate('/verify-email', { state: { flashMessage: 'please verify your email to continue' } });
-					break;
+				case 403: unVerifiedEmail(); break;
 				//server error case
 				case 500: setErrorMessage("Server Error! please contact support center"); break;
 				//default case
@@ -77,8 +76,8 @@ export function UpdateAvatarComponent({ userData, setUserData }) {
 	return (
 		<>
 			<form className="pt-3" onSubmit={(event) => updateAvatar(event)} encType="multipart/form-data">
-				<h4>Remove Profile Image</h4>
-				<h6>remove your profile picture</h6>
+				<h4>Update Profile Image</h4>
+				<h6>update your profile picture</h6>
 				{/* #ANCHOR reporting elements */}
 				<ErrorMessageComponent message={errorMessage} />
 				<InfoMessageComponent message={infoMessage} />
