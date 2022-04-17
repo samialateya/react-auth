@@ -1,8 +1,9 @@
-//*this a helper class to send request to the server
+//*this a helper class to simplify sending http requests to the server
 export class APIHelper{
 	#BASE_URL = 'http://127.0.0.1:8000/api/';
 	#BASE_HEADERS = { "Accept": "application/json" };
 
+	//ANCHOR send post requests
 	post(URI, data, headers = {}){
 		const requestURI = this.#BASE_URL+this.#prepareURI(URI);
 		const requestHeaders = { ...this.#BASE_HEADERS, ...headers };

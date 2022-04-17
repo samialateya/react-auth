@@ -11,12 +11,15 @@ export function Router() {
 	return (
 		<>
 			<Routes>
+				{/* ANCHOR Home Page Route */}
 				<Route path="*" element={<HomePage />} />
 				<Route path="/" element={<HomePage />} />
+				{/* ANCHOR Authentication Routes */}
 				<Route path="login" element={<LoginPage />} />
 				<Route path="register" element={<RegisterPage />} />
 				<Route path="reset-password" element={<ResetPasswordPage />} />
 				<Route path="verify-email" element={<VerifyEmailPage />} />
+				{/* ANCHOR Profile Routes */}
 				<Route path="profile">
 					<Route index element={<ProfilePage />} />
 					<Route path="update" element={<UpdateProfilePage />} />

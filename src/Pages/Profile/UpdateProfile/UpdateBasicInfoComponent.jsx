@@ -2,21 +2,25 @@ import { ErrorMessageComponent } from "../../../Components/alerts/ErrorMessageCo
 import { InfoMessageComponent } from "../../../Components/alerts/InfoMessageComponent";
 import { useState, useRef } from 'react';
 import { APIHelper } from "../../../Helpers/APIHelper";
-import { AuthManager } from "../../../StateManager/AuthManager";
 import { useInvalidToken, useUnVerifiedEmail } from "../../../Hooks/AuthHooks";
+import { useSyncUserData } from "../../../Hooks/AuthHooks";
 
-export function UpdateBasicInfoComponent({ userData, setUserData }) {
+export function UpdateBasicInfoComponent({ userData }) {
 	//SECTION	Scripts
 
-	//ANCHOR auth hooks
-	const invalidToken = useInvalidToken();
-	const unVerifiedEmail = useUnVerifiedEmail();
-
+	
 	//ANCHOR component state
 	const [errorMessage, setErrorMessage] = useState('');
 	const [infoMessage, setInfoMessage] = useState('');
 	const [btnText, setBtnText] = useState('Update Basic Info');
 	const [loadingState, setLoadingState] = useState(false);
+
+	//ANCHOR auth hooks
+	const invalidToken = useInvalidToken();
+	const unVerifiedEmail = useUnVerifiedEmail();
+
+	//ANCHOR use sync user data hook
+	const syncUserData = useSyncUserData();
 
 	//ANCHOR input refs
 	const passwordRef = useRef(null);
@@ -56,8 +60,9 @@ export function UpdateBasicInfoComponent({ userData, setUserData }) {
 				case 200:
 					const newUserData = { ...userData };
 					newUserData.name = formData.get('name');
-					AuthManager.storeUserData(newUserData);
-					setUserData(() => newUserData);
+					//*update user data in the state manager and browser local storage
+					syncUserData(newUserData);
+					//* print success message
 					setInfoMessage("Profile Info Updated Successfully");
 					//clear password input
 					passwordRef.current.value = '';

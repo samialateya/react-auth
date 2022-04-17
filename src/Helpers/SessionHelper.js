@@ -1,6 +1,6 @@
 /*======================================================================
-	This Session Helper Class contains a utility function to simplify working with browser local storage
-	it's exported to be used in vuex Auth Module
+	This Session Helper Class contains a utility function to simplify
+	working with browser local storage.
 ========================================================================*/
 export class SessionHelper {
 	constructor(key) {

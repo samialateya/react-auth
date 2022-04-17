@@ -1,23 +1,24 @@
 import './RegisterPage.css';
 import { useState, useEffect } from 'react';
 import { ErrorMessageComponent } from '../../../Components/alerts/ErrorMessageComponent.jsx';
-import { InfoMessageComponent } from '../../../Components/alerts/InfoMessageComponent.jsx';
 import { FormComponent } from './FormComponent';
 import { FooterComponent } from './FooterComponent';
-import { AuthManager } from '../../../StateManager/AuthManager.js';
-import { useNavigate } from 'react-router-dom';
+import { useGuestMiddleware } from '../../../Hooks/MiddlewareHooks';
 
 export function RegisterPage() {
 	//SECTION	Scripts
-		const [errorMessage, setErrorMessage] = useState('');
-		const [infoMessage, setInfoMessage] = useState('');
-		const navigate = useNavigate();
-		//prevent logged in user from accessing the register page
-		useEffect(() => {
-			if(AuthManager.isLoggedIn()){
-				navigate('/');
-			}
-		}, []);
+	
+	//ANCHOR Local component state
+	const [errorMessage, setErrorMessage] = useState('');
+
+	//ANCHOR guest middleware
+	const [guestMiddleware] = useGuestMiddleware();
+	
+	//ANCHOR on component mount
+	useEffect(() => {
+		//*Implement Guest Middleware 
+		guestMiddleware();
+	}, []);
 	//#!SECTION
 
 	return (
@@ -29,8 +30,7 @@ export function RegisterPage() {
 				<h1 className="text-black-50">Auth Starter Register</h1>
 
 				{/* #ANCHOR reporting elements */}
-				<ErrorMessageComponent message={errorMessage}/>
-				<InfoMessageComponent message={infoMessage}/>
+				<ErrorMessageComponent message={errorMessage} />
 
 				{/* #ANCHOR Form */}
 				<FormComponent setErrorMessage={setErrorMessage} />

@@ -5,7 +5,7 @@ import { LogoutComponent } from '../Pages/Auth/Logout/LogoutComponent.jsx';
 
 export function NavbarComponent() {
 	//catch user data from global state
-	const [userData, setUserData] = useContext(GlobalContext);
+	const [userData] = useContext(GlobalContext);
 	return (
 		<nav className="navbar navbar-expand-sm navbar-light bg-light">
 			{/*ANCHOR navabr container */}

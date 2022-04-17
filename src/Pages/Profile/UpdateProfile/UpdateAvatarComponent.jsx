@@ -2,20 +2,24 @@ import { ErrorMessageComponent } from "../../../Components/alerts/ErrorMessageCo
 import { InfoMessageComponent } from "../../../Components/alerts/InfoMessageComponent";
 import { useState } from 'react';
 import { APIHelper } from "../../../Helpers/APIHelper";
-import { AuthManager } from "../../../StateManager/AuthManager";
 import { useInvalidToken, useUnVerifiedEmail } from "../../../Hooks/AuthHooks";
-export function UpdateAvatarComponent({ userData, setUserData }) {
-	//SECTION	Scripts
+import { useSyncUserData } from "../../../Hooks/AuthHooks";
 
-	//ANCHOR auth hooks
-	const invalidToken = useInvalidToken();
-	const unVerifiedEmail = useUnVerifiedEmail();
+export function UpdateAvatarComponent({ userData }) {
+	//SECTION	Scripts
 
 	//ANCHOR component state
 	const [errorMessage, setErrorMessage] = useState('');
 	const [infoMessage, setInfoMessage] = useState('');
 	const [btnText, setBtnText] = useState('Update Avatar');
 	const [loadingState, setLoadingState] = useState(false);
+
+	//ANCHOR auth hooks
+	const invalidToken = useInvalidToken();
+	const unVerifiedEmail = useUnVerifiedEmail();
+
+	//ANCHOR use sync user data hook
+	const syncUserData = useSyncUserData();
 
 	//ANCHOR start loader
 	function startLoader() {
@@ -50,8 +54,9 @@ export function UpdateAvatarComponent({ userData, setUserData }) {
 				case 200:
 					const newUserData = { ...userData };
 					newUserData.avatar = response.body.avatar;
-					AuthManager.storeUserData(newUserData);
-					setUserData(() => newUserData);
+					//*update user data in the state manager and browser local storage
+					syncUserData(newUserData);
+					//* print success message
 					setInfoMessage("Avatar Is Updated Successfully");
 					break;
 				//invalid image

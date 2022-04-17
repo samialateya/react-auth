@@ -1,15 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
 import { NavbarComponent } from "../../Components/NavbarComponent";
-import { useState, useEffect } from "react";
-import { AuthManager } from "../../StateManager/AuthManager";
+import { useEffect } from "react";
 import { FeaturesComponent } from "./FeaturesComponent";
+import { useAuthMiddleware } from "../../Hooks/MiddlewareHooks";
 export function HomePage() {
-	//redirect to login page if user is not logged in
-	const navigate = useNavigate();
+	//ANCHOR use authentication middleware
+	const [authMiddleware] = useAuthMiddleware();
+
+	//ANCHOR on component mount
 	useEffect(()=>{
-		if(!AuthManager.isLoggedIn()){
-			navigate('/login');
-		}
+		//*Implement Authentication Middleware 
+		authMiddleware();
 	},[]);
 	return (
 		<>

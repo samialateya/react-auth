@@ -1,23 +1,21 @@
-import { useContext, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import { GlobalContext } from "../../../StateManager/AppContext";
+import { useEffect } from "react";
 import { NavbarComponent } from "../../../Components/NavbarComponent";
 import { UpdateBasicInfoComponent } from "./UpdateBasicInfoComponent";
 import { UpdateAvatarComponent } from "./UpdateAvatarComponent";
 import { RemoveAvatarComponent } from "./RemoveAvatarComponent";
-import { AuthManager } from "../../../StateManager/AuthManager";
+import { useAuthMiddleware } from "../../../Hooks/MiddlewareHooks";
 
 export function UpdateProfilePage(){
-	//SECTION	Scripts
-	//ANCHOR Global State
-	const [userData, setUserData] = useContext(GlobalContext);
-	//redirect to login page if user is not logged in
-	const navigate = useNavigate();
+
+	//ANCHOR use authentication middleware & catch user data from the hook
+	const [authMiddleware, userData] = useAuthMiddleware();
+
+	//ANCHOR on component mount
 	useEffect(() => {
-		if (!AuthManager.isLoggedIn()) {
-			navigate('/login');
-		}
+		//*Implement Authentication Middleware 
+		authMiddleware();
 	}, []);
+
 	//#!SECTION	Scripts
 	return(
 		<>
@@ -30,13 +28,13 @@ export function UpdateProfilePage(){
 						{/* form card */}
 						<div className="card card-body">
 							{/* ANCHOR update basic info */}
-							<UpdateBasicInfoComponent userData={userData} setUserData={setUserData}/>
+							<UpdateBasicInfoComponent userData={userData}/>
 							<hr />
 							{/*ANCHOR from to remove user avatar */}
-							<UpdateAvatarComponent userData={userData} setUserData={setUserData} />
+							<UpdateAvatarComponent userData={userData} />
 							<hr />
 							{/*ANCHOR from to remove user avatar */}
-							<RemoveAvatarComponent userData={userData} setUserData={setUserData}/>
+							<RemoveAvatarComponent userData={userData}/>
 							{/*#from remove user avatar */}
 						</div>
 					</div>

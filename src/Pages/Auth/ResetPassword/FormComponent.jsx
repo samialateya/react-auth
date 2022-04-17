@@ -1,10 +1,13 @@
 import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-
 import { APIHelper } from '../../../Helpers/APIHelper.js';
 
 export function FormComponent({ setErrorMessage, setInfoMessage }) {
 	//SECTION	Scripts
+
+	//ANCHOR local component state
+	const [btnText, setBtnText] = useState('Reset Password');
+	const [loadingState, setLoadingState] = useState(false);
 
 	//ANCHOR start loader
 	function startLoader() {
@@ -17,11 +20,7 @@ export function FormComponent({ setErrorMessage, setInfoMessage }) {
 		setLoadingState(false);
 	}
 
-	//ANCHOR local component state
-	const [btnText, setBtnText] = useState('Reset Password');
-	const [loadingState, setLoadingState] = useState(false);
-
-	//ANCHOR Reset Password
+	//ANCHOR Reset Password functionality
 	async function resetPassword(e){
 		//prevent default submitting behavior
 		e.preventDefault();

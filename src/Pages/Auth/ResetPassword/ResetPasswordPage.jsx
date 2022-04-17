@@ -4,19 +4,22 @@ import { ErrorMessageComponent } from '../../../Components/alerts/ErrorMessageCo
 import { InfoMessageComponent } from '../../../Components/alerts/InfoMessageComponent.jsx';
 import { FormComponent } from './FormComponent';
 import { FooterComponent } from './FooterComponent';
-import { AuthManager } from '../../../StateManager/AuthManager.js';
-import { useNavigate } from 'react-router-dom';
+import { useGuestMiddleware } from '../../../Hooks/MiddlewareHooks';
+
 
 export function ResetPasswordPage() {
 	//SECTION	Scripts
+	//ANCHOR component state
 	const [errorMessage, setErrorMessage] = useState('');
 	const [infoMessage, setInfoMessage] = useState('');
-	const navigate = useNavigate();
-	//prevent logged in user from accessing the register page
+
+	//ANCHOR guest middleware
+	const [guestMiddleware] = useGuestMiddleware();
+
+	//ANCHOR on component mount
 	useEffect(() => {
-		if (AuthManager.isLoggedIn()) {
-			navigate('/');
-		}
+		//*Implement Guest Middleware 
+		guestMiddleware();
 	}, []);
 	//#!SECTION
 

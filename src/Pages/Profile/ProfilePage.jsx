@@ -1,18 +1,18 @@
-import { useContext, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { GlobalContext } from '../../StateManager/AppContext.js';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { NavbarComponent } from '../../Components/NavbarComponent';
-import { AuthManager } from '../../StateManager/AuthManager.js';
+import { useAuthMiddleware } from '../../Hooks/MiddlewareHooks.js';
 export function ProfilePage() {
-	//catch user data from global state
-	const [userData, setUserData] = useContext(GlobalContext);
-	//redirect to login page if user is not logged in
-	const navigate = useNavigate();
+
+	//ANCHOR use authentication middleware & catch user data from the hook
+	const [authMiddleware, userData] = useAuthMiddleware();
+
+	//ANCHOR on component mount
 	useEffect(() => {
-		if (!AuthManager.isLoggedIn()) {
-			navigate('/login');
-		}
+		//*Implement Authentication Middleware 
+		authMiddleware();
 	}, []);
+	
 	return (
 		<>
 			{/* ANCHOR Navbar */}
@@ -22,7 +22,7 @@ export function ProfilePage() {
 					{/* profile card */}
 					<div className="card col-sm-8 col-md-6 col-lg-4 mx-auto">
 						{/* avatar */}
-						<img src={userData?.avatar} className="card-img-top" alt="avatar"/>
+						<img src={userData?.avatar} className="card-img-top" alt="avatar" />
 						{/* card body */}
 						<div className="card-body">
 							<h5 className="card-title">{userData?.name}</h5>

@@ -1,21 +1,20 @@
 import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom"
-
 import { APIHelper } from '../../../Helpers/APIHelper.js';
 
 export function FormComponent({	setErrorMessage }) {
 	//SECTION	Scripts
 
-	//define state for password changes to be function the password confirmation pattern
-	const currentPassword = useRef('currentPassword');
-	let navigate = useNavigate();
-
-	
 	//ANCHOR local component state
 	const [btnText, setBtnText] = useState('SIGN IN');
 	const [loadingState, setLoadingState] = useState(false);
+	//*reference current password input
+	const currentPassword = useRef('currentPassword');
 	
+	//ANCHOR use navigation hook
+	let navigate = useNavigate();
+
 	//ANCHOR start loader
 	function startLoader() {
 		setBtnText('loading...');
@@ -27,13 +26,12 @@ export function FormComponent({	setErrorMessage }) {
 		setLoadingState(false);
 	}
 	
-	//ANCHOR login
-	async function login(e){
+	//ANCHOR registration functionality
+	async function register(e){
 		//prevent default submitting behavior
 		e.preventDefault();
 		//*start loading functionality
 		startLoader();
-		
 		//*send ajax request to the server
 		try{
 			const response = await (new APIHelper()).post('user/register', new FormData(e.target));
@@ -65,7 +63,7 @@ export function FormComponent({	setErrorMessage }) {
 	return (
 		<>
 			{/* #SECTION Form */}
-			<form className="pt-3" onSubmit={(event) => login(event)}>
+			<form className="pt-3" onSubmit={(event) => register(event)}>
 				{/* #ANCHOR name  */}
 				<div className="pb-2">
 					<input type="name" name="name" placeholder="Name" className="form-control form-control-lg" required minLength="3" title="Invalid email address" autoComplete="name" />

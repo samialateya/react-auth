@@ -1,17 +1,22 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom"
 
 import { APIHelper } from '../../../Helpers/APIHelper.js';
-import { AuthManager } from '../../../StateManager/AuthManager.js';
-import { GlobalContext } from '../../../StateManager/AppContext.js';
+import { useSyncUserData } from '../../../Hooks/AuthHooks.js';
 
 export function FormComponent({	setErrorMessage,setInfoMessage }) {
 	//SECTION	Scripts
-	//catch user data from global state
-	const [userData, setUserData] = useContext(GlobalContext);
 
-	let navigate = useNavigate();
+	//ANCHOR local component state
+	const [btnText, setBtnText] = useState('SIGN IN');
+	const [loadingState, setLoadingState] = useState(false);
+
+	//ANCHOR use navigation hook
+	const navigate = useNavigate();
+
+	//ANCHOR use sync user data hook
+	const syncUserData = useSyncUserData();
 
 	//ANCHOR start loader
 	function startLoader() {
@@ -24,11 +29,7 @@ export function FormComponent({	setErrorMessage,setInfoMessage }) {
 		setLoadingState(false);
 	}
 
-	//ANCHOR local component state
-	const [btnText, setBtnText] = useState('SIGN IN');
-	const [loadingState, setLoadingState] = useState(false);
-
-	//ANCHOR login
+	//ANCHOR login functionality
 	async function login(e){
 		//prevent default submitting behavior
 		e.preventDefault();
@@ -48,8 +49,9 @@ export function FormComponent({	setErrorMessage,setInfoMessage }) {
 			switch(response.code){
 				//case 200 save user data to the state manager and redirect to the home page
 				case 200:
-					AuthManager.storeUserData(response.body.data);
-					setUserData(() => response.body.data);
+					//*update user data in the state manager and browser local storage
+					syncUserData(response.body.data);
+					//*redirect to the home page
 					navigate('/');
 					break;
 				//incorrect credentials case
@@ -67,7 +69,8 @@ export function FormComponent({	setErrorMessage,setInfoMessage }) {
 		}
 	}
 	
-	//#!SECTION
+	//#!SECTION script
+
 	return (
 		<>
 			{/* #SECTION Form */}

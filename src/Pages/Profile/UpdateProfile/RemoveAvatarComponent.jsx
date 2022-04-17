@@ -2,11 +2,10 @@ import { ErrorMessageComponent } from "../../../Components/alerts/ErrorMessageCo
 import { InfoMessageComponent } from "../../../Components/alerts/InfoMessageComponent";
 import { useState } from 'react';
 import { useInvalidToken, useUnVerifiedEmail } from "../../../Hooks/AuthHooks";
-
-
 import { APIHelper } from "../../../Helpers/APIHelper";
-import { AuthManager } from "../../../StateManager/AuthManager";
-export function RemoveAvatarComponent({ userData, setUserData}) {
+import { useSyncUserData } from "../../../Hooks/AuthHooks";
+
+export function RemoveAvatarComponent({ userData}) {
 	//SECTION	Scripts
 
 	//ANCHOR component state
@@ -19,6 +18,9 @@ export function RemoveAvatarComponent({ userData, setUserData}) {
 	const invalidToken = useInvalidToken();
 	const unVerifiedEmail = useUnVerifiedEmail();
 
+	//ANCHOR use sync user data hook
+	const syncUserData = useSyncUserData();
+
 	//ANCHOR start loader
 	function startLoader() {
 		setBtnText('loading...');
@@ -30,7 +32,7 @@ export function RemoveAvatarComponent({ userData, setUserData}) {
 		setLoadingState(false);
 	}
 
-	//ANCHOR Remove Avatar
+	//ANCHOR Remove Avatar functionality
 	async function removeAvatar(e) {
 		//prevent default submitting behavior
 		e.preventDefault();
@@ -52,8 +54,9 @@ export function RemoveAvatarComponent({ userData, setUserData}) {
 				case 200:
 					const newUserData = { ...userData };
 					newUserData.avatar = response.body.defaultAvatar;
-					AuthManager.storeUserData(newUserData);
-					setUserData(() => newUserData);
+					//*update user data in the state manager and browser local storage
+					syncUserData(newUserData);
+					//* print success message
 					setInfoMessage("Avatar Is Removed Successfully");
 					break;
 				//invalid access token

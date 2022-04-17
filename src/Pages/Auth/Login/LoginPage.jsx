@@ -4,27 +4,29 @@ import { ErrorMessageComponent } from '../../../Components/alerts/ErrorMessageCo
 import { InfoMessageComponent } from '../../../Components/alerts/InfoMessageComponent.jsx';
 import { FormComponent } from './FormComponent';
 import { FooterComponent } from './FooterComponent';
-import { AuthManager } from '../../../StateManager/AuthManager.js';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useGuestMiddleware } from '../../../Hooks/MiddlewareHooks';
 
 export function LoginPage() {
 	//SECTION	Scripts
-		//component state
-		const [errorMessage, setErrorMessage] = useState('');
-		const [infoMessage, setInfoMessage] = useState('');
-		
-		const navigate = useNavigate();
-		//navigation props
-		const { state } = useLocation();
-		//prevent logged in user from accessing the login page
-		useEffect(() => {
-			if(AuthManager.isLoggedIn()){
-				navigate('/');
-				return;
-			}
-			//print flash message from navigation props if any
-			setInfoMessage(state?.flashMessage);
-		}, []);
+	
+	//ANCHOR component state
+	const [errorMessage, setErrorMessage] = useState('');
+	const [infoMessage, setInfoMessage] = useState('');
+
+	//ANCHOR router navigation props
+	const { state } = useLocation();
+
+	//ANCHOR guest middleware
+	const [guestMiddleware] = useGuestMiddleware();
+
+	//ANCHOR on component mount
+	useEffect(() => {
+		//*Implement Guest Middleware 
+		guestMiddleware();
+		//?print flash message from navigation props if any
+		setInfoMessage(state?.flashMessage);
+	}, []);
 	//#!SECTION
 
 	return (
@@ -38,8 +40,8 @@ export function LoginPage() {
 				<h6>Sign in to continue.</h6>
 
 				{/* #ANCHOR reporting elements */}
-				<ErrorMessageComponent message={errorMessage}/>
-				<InfoMessageComponent message={infoMessage}/>
+				<ErrorMessageComponent message={errorMessage} />
+				<InfoMessageComponent message={infoMessage} />
 
 				{/* #ANCHOR Form */}
 				<FormComponent setErrorMessage={setErrorMessage} setInfoMessage={setInfoMessage} />

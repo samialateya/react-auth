@@ -2,9 +2,17 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { APIHelper } from '../../../Helpers/APIHelper.js';
+import { useInvalidToken } from '../../../Hooks/AuthHooks';
 
-export function FormComponent({ setErrorMessage, setInfoMessage, invalidToken, userData}) {
+export function FormComponent({ setErrorMessage, setInfoMessage, userData}) {
 	//SECTION	Scripts
+
+	//ANCHOR local component state
+	const [btnText, setBtnText] = useState('Send Verification Link');
+	const [loadingState, setLoadingState] = useState(false);
+
+	//ANCHOR use invalid token hook
+	const invalidToken = useInvalidToken();
 
 	//ANCHOR start loader
 	function startLoader() {
@@ -16,10 +24,6 @@ export function FormComponent({ setErrorMessage, setInfoMessage, invalidToken, u
 		setBtnText('Send Verification Link');
 		setLoadingState(false);
 	}
-
-	//ANCHOR local component state
-	const [btnText, setBtnText] = useState('Send Verification Link');
-	const [loadingState, setLoadingState] = useState(false);
 
 	//ANCHOR Verify Email
 	async function verifyEmail(e) {
@@ -73,6 +77,5 @@ export function FormComponent({ setErrorMessage, setInfoMessage, invalidToken, u
 FormComponent.propTypes = {
 	setErrorMessage: PropTypes.func.isRequired,
 	setInfoMessage: PropTypes.func.isRequired,
-	invalidToken: PropTypes.func.isRequired,
-	userData: PropTypes.object.isRequired
+	userData: PropTypes.object
 }

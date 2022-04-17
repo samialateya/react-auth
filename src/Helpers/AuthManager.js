@@ -1,18 +1,9 @@
 import { SessionHelper } from '../Helpers/SessionHelper.js';
 /* --------------------------------------------------------------------------
-	this class is used to manage user auth data on the sate manager
-	and sync them with local storage data																			
+	this class is used to manage user data stored in browser local Storage																		
 -------------------------------------------------------------------------- */
 export class AuthManager {
-	//sync data from local storage and save it to the state manager
-	static syncUserData() {
-		const userSession = new SessionHelper("user_auth");
-		//?abort if no data found in local storage
-		if (!userSession.check()) { return false; }
-		//?else return user data from local storage
-		return userSession.fetch();
-	}
-
+	
 	//store user data to local storage
 	static storeUserData(data) {
 		(new SessionHelper("user_auth")).store(data);

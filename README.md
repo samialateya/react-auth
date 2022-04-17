@@ -5,6 +5,7 @@ It's  a [React](https://reactjs.org/) authentication markdown that will help you
 - Setup react router dom to handle navigation process
 - Setup Context store to handle state management
 - Caching user data in local storage to keep user logged in
+- Setup custom hooks for authentication and middleware
 - Setup environment files to controls environment variables
 - Consuming restful API and share data between client and the server
 - Setup social login components with all it's underlying functionality
