@@ -6,6 +6,7 @@ import { FormComponent } from './FormComponent';
 import { FooterComponent } from './FooterComponent';
 import { useLocation } from 'react-router-dom';
 import { useGuestMiddleware } from '../../../Hooks/MiddlewareHooks';
+import { GoogleLoginComponent } from '../SocialLogin/GoogleLoginComponent';
 
 export function LoginPage() {
 	//SECTION	Scripts
@@ -39,15 +40,23 @@ export function LoginPage() {
 				<h4>Hello! let's get started</h4>
 				<h6>Sign in to continue.</h6>
 
-				{/* #ANCHOR reporting elements */}
+				{/* ANCHOR reporting elements */}
 				<ErrorMessageComponent message={errorMessage} />
 				<InfoMessageComponent message={infoMessage} />
 
-				{/* #ANCHOR Form */}
+				{/* ANCHOR Form */}
 				<FormComponent setErrorMessage={setErrorMessage} setInfoMessage={setInfoMessage} />
 
-				{/* #ANCHOR Form Footer */}
+				{/* ANCHOR Form Footer */}
 				<FooterComponent />
+
+				{/* ANCHOR Social Login */}
+				<h6 className="mt-4 text-center">Or continue with</h6>
+				<div className="d-flex justify-content-around mt-2">
+					{/* Google Login Button */}
+					<GoogleLoginComponent setErrorMessage={setErrorMessage} />
+					{/* Facebook Login Button */}
+				</div>
 			</div>
 			{/*#!SECTION login card */}
 		</div>
