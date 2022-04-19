@@ -6,8 +6,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSyncUserData } from '../../../Hooks/AuthHooks';
 
-const CLIENT_ID = "308672257396-30h903etf2pjd73ulblcg8ri5c875hfq.apps.googleusercontent.com";
-
 export function GoogleLoginComponent({ setErrorMessage}) {
 
 	//SECTION Scripts
@@ -70,7 +68,7 @@ export function GoogleLoginComponent({ setErrorMessage}) {
 	const { signIn } = useGoogleLogin({
 		onSuccess : successHandler,
 		onFailure : failureHandler,
-		clientId : CLIENT_ID,
+		clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID ,
 		isSignedIn: false,
 		accessType: 'offline',
 		// responseType: 'code',

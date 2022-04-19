@@ -7,6 +7,7 @@ import { FooterComponent } from './FooterComponent';
 import { useLocation } from 'react-router-dom';
 import { useGuestMiddleware } from '../../../Hooks/MiddlewareHooks';
 import { GoogleLoginComponent } from '../SocialLogin/GoogleLoginComponent';
+import { FacebookLoginComponent } from '../SocialLogin/FacebookLoginComponent';
 
 export function LoginPage() {
 	//SECTION	Scripts
@@ -56,6 +57,7 @@ export function LoginPage() {
 					{/* Google Login Button */}
 					<GoogleLoginComponent setErrorMessage={setErrorMessage} />
 					{/* Facebook Login Button */}
+					<FacebookLoginComponent setErrorMessage={setErrorMessage} />
 				</div>
 			</div>
 			{/*#!SECTION login card */}
