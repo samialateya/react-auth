@@ -50,7 +50,7 @@ export function FormComponent({ setErrorMessage, setInfoMessage }) {
 				default: setErrorMessage("Something went wrong, please try again later"); break;
 			}
 		} catch(error){
-			console.log(error);
+			stopLoader();
 			setErrorMessage("Connection Error!");
 		}
 	}

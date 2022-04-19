@@ -1,4 +1,5 @@
 //*this a helper class to simplify sending http requests to the server
+
 export class APIHelper{
 	#BASE_URL = 'http://127.0.0.1:8000/api/';
 	#BASE_HEADERS = { "Accept": "application/json" };

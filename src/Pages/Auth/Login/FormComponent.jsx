@@ -63,8 +63,9 @@ export function FormComponent({	setErrorMessage,setInfoMessage }) {
 				//default case
 				default: setErrorMessage("Something went wrong, please try again later"); break;
 			}
-		} catch(error){
-			console.log(error);
+		} 
+		catch(error){
+			stopLoader();
 			setErrorMessage("Connection Error!");
 		}
 	}

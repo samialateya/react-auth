@@ -29,7 +29,7 @@ export function useUnVerifiedEmail() {
 
 
 /* ANCHOR Sync user data with browser local storage
- : this function is used to update user data in global context and in browser local storage as well */
+ : this Hook is used to update user data in global context and in browser local storage as well */
 export function useSyncUserData() {
 	
 	const [userData, setUserData] = useContext(GlobalContext);

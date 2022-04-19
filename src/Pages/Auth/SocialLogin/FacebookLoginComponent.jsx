@@ -56,7 +56,6 @@ export function FacebookLoginComponent({ setErrorMessage }) {
 					setErrorMessage("something went wrong! please try again later");
 			}
 		} catch (error) {
-			console.log(error);
 			setLoadingState(false);
 			setErrorMessage("Connection Error!");
 		}

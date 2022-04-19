@@ -8,11 +8,12 @@ import { GlobalProvider } from './StateManager/AppContext';
 //*import bootstrap5
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
+//* render the app
 ReactDOM.render(
   <React.StrictMode>
 		<GlobalProvider>
 			<App />
-	</GlobalProvider>
+		</GlobalProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
